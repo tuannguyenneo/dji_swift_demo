@@ -130,26 +130,34 @@ final class WaypointMissionV2ViewController: UIViewController {
 //        listActionsV2.append(intervalShootingAction.waypointAction)
         
         // rotate heading
-//        let headingAction = createWaypointV2Action(action: .ROTATE_HEADING,
-//                                                   actionIndex: actionIndex,
-//                                                   waypointIndex: 0,
-//                                                   heading: 308.1)
-//        actionIndex = headingAction.newActionIndex
-//        listActionsV2.append(headingAction.waypointAction)
+        let headingAction = createWaypointV2Action(action: .ROTATE_HEADING,
+                                                   actionIndex: actionIndex,
+                                                   waypointIndex: 0,
+                                                   heading: 60)
+        actionIndex = headingAction.newActionIndex
+        listActionsV2.append(headingAction.waypointAction)
+        
+        // Gimbal tilt
+        let gimbalAction = createWaypointV2Action(action: .ROTATE_GIMBAL,
+                                                  actionIndex: actionIndex,
+                                                  waypointIndex: 0,
+                                                  gimbal: -60)
+        actionIndex = gimbalAction.newActionIndex
+        listActionsV2.append(gimbalAction.waypointAction)
         
         // Zoom
         // 2X --> 15X:
-        if let zoomRate2XToFocalLength = cameraHybridZoomSpec?.getFocalLength(with: 2.0) {
-            let zoomAction2X = createWaypointV2Action(action: .ZOOM, actionIndex: actionIndex, zoom: Double(zoomRate2XToFocalLength))
-            actionIndex = zoomAction2X.newActionIndex
-            listActionsV2.append(zoomAction2X.waypointAction)
-        }
-        
-        if let zoomRate15XToFocalLength = cameraHybridZoomSpec?.getFocalLength(with: 15.0) {
-            let zoomAction15X = createWaypointV2Action(action: .ZOOM, actionIndex: actionIndex, zoom: Double(zoomRate15XToFocalLength))
-            actionIndex = zoomAction15X.newActionIndex
-            listActionsV2.append(zoomAction15X.waypointAction)
-        }
+//        if let zoomRate2XToFocalLength = cameraHybridZoomSpec?.getFocalLength(with: 2.0) {
+//            let zoomAction2X = createWaypointV2Action(action: .ZOOM, actionIndex: actionIndex, zoom: Double(zoomRate2XToFocalLength))
+//            actionIndex = zoomAction2X.newActionIndex
+//            listActionsV2.append(zoomAction2X.waypointAction)
+//        }
+//
+//        if let zoomRate15XToFocalLength = cameraHybridZoomSpec?.getFocalLength(with: 15.0) {
+//            let zoomAction15X = createWaypointV2Action(action: .ZOOM, actionIndex: actionIndex, zoom: Double(zoomRate15XToFocalLength))
+//            actionIndex = zoomAction15X.newActionIndex
+//            listActionsV2.append(zoomAction15X.waypointAction)
+//        }
         
         // stay
         let makeDroneStayAction = createWaypointV2Action(action: .STAY,
@@ -428,8 +436,8 @@ final class WaypointMissionV2ViewController: UIViewController {
             // GIMBAL_TILT - trigger
             let triggerParam = DJIWaypointV2AssociateTriggerParam()
             triggerParam.actionIdAssociated = UInt(newActionIndex)
-            triggerParam.actionAssociatedType = .afterFinished
-            triggerParam.waitingTime = UInt(3)
+            triggerParam.actionAssociatedType = .simultaneously
+//            triggerParam.waitingTime = UInt(3)
             
             let trigger = DJIWaypointV2Trigger()
             trigger.actionTriggerType = .actionAssociated
@@ -514,7 +522,7 @@ final class WaypointMissionV2ViewController: UIViewController {
             let triggerParam = DJIWaypointV2AssociateTriggerParam()
             triggerParam.actionIdAssociated = UInt(newActionIndex)
             triggerParam.actionAssociatedType = .afterFinished
-            triggerParam.waitingTime = UInt(5)
+//            triggerParam.waitingTime = UInt(5)
             
             let trigger = DJIWaypointV2Trigger()
             trigger.actionTriggerType = .actionAssociated
